@@ -22,13 +22,13 @@ namespace ProjectEuler12
            10: 1,2,5,10
            15: 1,3,5,15
            21: 1,3,7,21
-           28: 1,2,4,7,14,28*/
+           28: 1,2,4,7,14,28 */
         // We can see that 28 is the first triangle number to have over five divisors.
         // What is the value of the first triangle number to have over five hundred divisors?
         static void Main(string[] args)
         {
             var timer = Stopwatch.StartNew();
-            int i = 12186; // We can start later because I've explored all number up until this point
+            int i = 1;
             int triangleNumber;
 
             do
@@ -40,9 +40,10 @@ namespace ProjectEuler12
                     triangleNumber += j;
                 }
                 i++;
-            } while (GetDivisors(triangleNumber).Length != 500);
+            } while (GetDivisors(triangleNumber).Length < 500);
             
-            Console.WriteLine(triangleNumber);
+            timer.Stop();
+            Console.WriteLine("Number {0} has {1} divisors", triangleNumber, GetDivisors(triangleNumber).Length);
             Console.Write("Elapsed time: {0} ms", timer.ElapsedMilliseconds);
             Console.ReadKey();
         }
@@ -50,26 +51,21 @@ namespace ProjectEuler12
         {
             var divisors = new List<int>() { 1, n }; //All numbers are divisble by themselves and 1 so we can add that from the start
 
-            //IT's probably going to be an even number because they have far more divisors than uneven numbers so let's skip the uneven numbers
-            if (n % 2 != 0)
+            // One is a special case
+            if (n == 1)
             {
-                return divisors.ToArray();
+                return new int[] { 1 };
             }
 
-            for (int i = 2; i < n / 2; i++)
+            // We only need to loop up to sqrt(n) we can generate the other factors through division
+            for (int i = 2; i <= Math.Sqrt(n); i++)
             {
                 if (n % i == 0)
                 {
                     divisors.Add(i);
+                    divisors.Add(n / i);
                 }
             }
-            //Parallel.For(2, n / 2, i =>
-            //{
-            //    if (n % i == 0)
-            //    {
-            //        divisors.Add(i);
-            //    }
-            //});
 
             return divisors.ToArray();
         }

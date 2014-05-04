@@ -23,47 +23,38 @@ namespace Problem14
         // NOTE: Once the chain starts the terms are allowed to go above one million.
         static void Main(string[] args)
         {
+            var longestChain = new { Number = 0, Steps = 0 };
             var timer = Stopwatch.StartNew();
 
-            using (StreamWriter writer = new StreamWriter("output.txt"))
+            for (int i = 1; i < 1000001; i++)
             {
-                for (long i = 1; i < 1000001; i++)
-                {
-                    writer.WriteLine("{0} = {1}", i, GenerateCollatzSequence(i));
-                }
-            }
-            using (StreamReader reader = new StreamReader("output.txt"))
-            {
-                var longestChain = new { Number = 0, Steps = 0 };
-                for (int i = 0; i < 1000000; i++)
-                {
-                    var line = reader.ReadLine().Split('=').Select(n  => int.Parse(n)).ToArray();
-                    var entry = new { Number = line[0], Steps = line[1] };
+                int steps = GetCollatzSteps(i); 
 
-                    if (entry.Steps > longestChain.Steps)
-                    {
-                        longestChain = new { Number = entry.Number, Steps = entry.Steps };
-                    }
+                if (steps > longestChain.Steps)
+                {
+                    longestChain = new { Number = i, Steps = steps };
                 }
-                Console.WriteLine("The longest was number {0} with {1} steps", longestChain.Number, longestChain.Steps);
-                Console.ReadKey();
             }
+
+            Console.WriteLine("The longest was number {0} with {1} steps", longestChain.Number, longestChain.Steps);
+            Console.Write("Completed in {0} ms", timer.ElapsedMilliseconds);
+            Console.ReadKey();
         }
 
-        static int GenerateCollatzSequence(long n)
+        static int GetCollatzSteps(long n)
         {
             int sequenceSteps = 0;
-            return GenerateCollatzSequence(n, ref sequenceSteps);//sequenceSteps;
+            return GetCollatzSteps(n, ref sequenceSteps);//sequenceSteps;
         }
 
-        static int GenerateCollatzSequence(long n, ref int sequenceSteps)
+        static int GetCollatzSteps(long n, ref int sequenceSteps)
         {
             n = (n % 2 == 0) ? n / 2 : 3 * n + 1;
             sequenceSteps++;
 
             if (n != 1)
             {
-                GenerateCollatzSequence(n, ref sequenceSteps);
+                GetCollatzSteps(n, ref sequenceSteps);
             }
 
             return sequenceSteps;

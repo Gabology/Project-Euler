@@ -6,37 +6,36 @@ using System.Threading.Tasks;
 
 namespace Problem15
 {
-    class Position
-    {
-        private static int ctr;
-        public readonly int Id;
-        public readonly int Column;
-        public readonly int Row;
+   public class Position
+   {
+      public readonly int Column;
+      public readonly int Row;
+      public long Routes { get; set; }
 
-        public Position(int column, int row)
-        {
-            Id = ctr++;
-            Row = row;
-            Column = column;
-        }
 
-        public override string ToString()
-        {
-            return String.Format("{0} = ({1}, {2})", Id, Row, Column);
-        }
+      public Position(int column, int row)
+      {
+         Row = row;
+         Column = column;
+      }
 
-        public override bool Equals(object obj)
-        {
-            return this == (Position)obj;
-        }
+      public override string ToString()
+      {
+         return String.Format("({0}-{1}), Routes = {2}", Column, Row, Routes);
+      }
 
-        public static bool operator ==(Position x, Position y)
-        {
-            return (x.Column == y.Column && x.Row == y.Row) ? true : false;
-        }
-        public static bool operator !=(Position x, Position y)
-        {
-            return (x.Column == y.Column && x.Row == y.Row) ? false : true;
-        }
-    }
+      public override bool Equals(object obj)
+      {
+         return this == (Position)obj;
+      }
+
+      public static bool operator ==(Position x, Position y)
+      {
+         return (x.Column == y.Column && x.Row == y.Row) ? true : false;
+      }
+      public static bool operator !=(Position x, Position y)
+      {
+         return (x.Column == y.Column && x.Row == y.Row) ? false : true;
+      }
+   }
 }

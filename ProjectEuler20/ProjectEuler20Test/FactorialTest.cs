@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ProjectEuler20;
+using System.Numerics;
 
 namespace ProjectEuler20Test
 {
@@ -14,7 +15,7 @@ namespace ProjectEuler20Test
          int n = 10;
          int expected = 3628800;
          // Act
-         long actual = ProjectEuler20.Program.GetFactorial(n);
+         BigInteger actual = ProjectEuler20.Program.GetFactorial(n);
          // Assert
          Assert.AreEqual(expected, actual);
       }
